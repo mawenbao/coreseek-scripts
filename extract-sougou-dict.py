@@ -71,5 +71,5 @@ if __name__ == '__main__':
             f.write('\n'.join(wordSet))
         else:
             for word in wordSet:
-                f.write('{}\t1\nx:1\n'.format(word))
+                f.write('{}\t1\nx:1\n'.format(word.encode('UTF-8')))
     print('成功从{}个搜狗词库中提取出{}个词组  =>  {}'.format(len(args.dictfile), len(wordSet), args.output))

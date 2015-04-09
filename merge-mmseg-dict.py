@@ -8,11 +8,17 @@
 '''
 
 import argparse
-from itertools import imap, ifilter
+
+# check python version
+import sys
+if sys.version_info.major == 2:
+    import itertools
+    map = itertools.imap
+    filter = itertools.ifilter
 
 def parse_mmseg_dict(dictPath):
     with open(dictPath, 'r') as f:
-        return set(imap(lambda x: x.strip(), ifilter(lambda x: x.strip()[0] != 'x', f)))
+        return set(map(lambda x: x.strip(), filter(lambda x: x.strip()[0] != 'x', f)))
 
 if __name__ == '__main__':
     argParser = argparse.ArgumentParser(description=u'合并libmmseg中文字典文件，不检查词典文件格式。')
@@ -36,4 +42,4 @@ if __name__ == '__main__':
     print(u'成功合并2个词典文件 {}({}) + {}({}) =>  {}({})'.format(
         args.mainDict, mainWordSetLen, args.secondDict, secondWordSetLen, args.output, numMergedWords))
     if (0 != numOmittedWords):
-        print('{}中的{}个重复词组被忽略'.format(args.secondDict, numOmittedWords))
+        print(u'{}中的{}个重复词组被忽略'.format(args.secondDict, numOmittedWords))

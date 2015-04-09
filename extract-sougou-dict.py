@@ -15,6 +15,12 @@
 
 import argparse
 import struct
+import codecs
+
+# check python version
+import sys
+if sys.version_info.major == 2:
+    range = xrange
 
 gWordsOffset = 0x2628 # 词组列表的偏移地址
 
@@ -38,7 +44,7 @@ def extract_sougou_words(data):
         numTongYinCi, pinYinTableLen = struct.unpack('<HH', data[offset:offset+4])
         offset += (4 + pinYinTableLen)
 
-        for i in xrange(numTongYinCi):
+        for i in range(numTongYinCi):
             wordLen = struct.unpack('<H', data[offset:offset+2])[0]
             offset += 2
             word = struct.unpack('<' + str(wordLen) + 's', data[offset:offset+wordLen])[0]
@@ -66,10 +72,10 @@ if __name__ == '__main__':
     args = argParser.parse_args()
     
     wordSet = extract_sougou_dict_files(args.dictfile)
-    with open(args.output, "w") as f:
+    with codecs.open(args.output, 'w', encoding='UTF-8') as f:
         if not args.mmseg:
-            f.write('\n'.join(wordSet))
+            f.write(u'\n'.join(wordSet))
         else:
             for word in wordSet:
-                f.write('{}\t1\nx:1\n'.format(word.encode('UTF-8')))
-    print('成功从{}个搜狗词库中提取出{}个词组  =>  {}'.format(len(args.dictfile), len(wordSet), args.output))
+                f.write(u'{}\t1\nx:1\n'.format(word))
+    print(u'成功从{}个搜狗词库中提取出{}个词组  =>  {}'.format(len(args.dictfile), len(wordSet), args.output))

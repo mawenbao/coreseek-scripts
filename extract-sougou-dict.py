@@ -19,7 +19,7 @@ import codecs
 
 # check python version
 import sys
-if sys.version_info.major == 2:
+if sys.version_info[0] == 2:
     range = xrange
 
 gWordsOffset = 0x2628 # 词组列表的偏移地址
@@ -70,7 +70,7 @@ if __name__ == '__main__':
     argParser.add_argument('-o', dest='output', required=True, help=u'输出文件的路径，默认情况下每个词组占一行')
     argParser.add_argument('-mmseg', dest='mmseg', action='store_true', help=u'按libmmseg字典文件的格式生成输出文件')
     args = argParser.parse_args()
-    
+
     wordSet = extract_sougou_dict_files(args.dictfile)
     with codecs.open(args.output, 'w', encoding='UTF-8') as f:
         if not args.mmseg:

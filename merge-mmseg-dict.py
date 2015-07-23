@@ -11,7 +11,7 @@ import argparse
 
 # check python version
 import sys
-if sys.version_info.major == 2:
+if sys.version_info[0] == 2:
     import itertools
     map = itertools.imap
     filter = itertools.ifilter

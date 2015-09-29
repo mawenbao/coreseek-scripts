@@ -13,14 +13,17 @@
 
 '''
 
-import argparse
-import struct
-import codecs
-
 # check python version
 import sys
 if sys.version_info[0] == 2:
     range = xrange
+    if sys.version_info[1] < 7:
+        print("Require python version 2.7+")
+        sys.exit(1)
+
+import argparse
+import struct
+import codecs
 
 gWordsOffset = 0x2628 # 词组列表的偏移地址
 

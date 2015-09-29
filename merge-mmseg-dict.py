@@ -7,14 +7,17 @@
 将两个libmmseg中文词典合并为一个。
 '''
 
-import argparse
-
 # check python version
 import sys
 if sys.version_info[0] == 2:
     import itertools
     map = itertools.imap
     filter = itertools.ifilter
+    if sys.version_info[1] < 7:
+        print("Require python version 2.7+")
+        sys.exit(1)
+
+import argparse
 
 def parse_mmseg_dict(dictPath):
     with open(dictPath, 'r') as f:
